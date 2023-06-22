@@ -2,7 +2,6 @@ version: 0.2
 env:
   secrets-manager:
     SONAR_TOKEN: "sqp_c473de7f1382d7862cd7bda1ca471d96bcc33f65"
-
 phases:
   install:
     runtime-versions:
