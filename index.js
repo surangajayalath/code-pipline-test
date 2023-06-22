@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Darwin Website</title>
-</head><body>
-    <input type="button" onclick="randomScript()">
-</body>
-</html>
+var a = NaN;
+
+if (a === NaN) {  // Noncompliant; always false
+  console.log("a is not a number");  // this is dead code
+}
+if (a !== NaN) { // Noncompliant; always true
+  console.log("a is not NaN"); // this statement is not necessarily true
+}
