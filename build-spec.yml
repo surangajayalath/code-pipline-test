@@ -1,13 +1,9 @@
 version: 0.2
 env:
-  parameter-store:
-    HOST: /shared/codeBuild/testone/host
-    PROJECT: /shared/codeBuild/testone/project
-  # variables:
-  #   LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
-  #   HOST: "http://audit.loyalty.cxforge.com/"
-  #   Project: "aws-codepipeline"
-  #   SONAR_TOKEN: "sqp_0e50bff074c760e08a7ef731630f4f642e7fb047"
+  variables:
+    HOST: "http://audit.loyalty.cxforge.com"
+    Project: "aws-codepipeline"
+
 phases:
   install:
     runtime-versions:
@@ -32,7 +28,7 @@ phases:
       # - sonar-scanner -X -Dsonar.projectKey=aws-codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com -Dsonar.login=sqp_0e50bff074c760e08a7ef731630f4f642e7fb047
       # - mvn test     
       # - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
-      # - sleep 5
-      # - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
-      # - cat result.json
-      # - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+      - sleep 5
+      - curl http://http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=$Project >result.json
+      - cat result.json
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
