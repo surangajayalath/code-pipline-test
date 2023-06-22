@@ -25,7 +25,7 @@ phases:
       - wget https://ufpr.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.4.0/zabbix-4.4.0.tar.gz
       - tar -zxvf zabbix-4.4.0.tar.gz
       - cd zabbix-4.4.0
-      - sonar-scanner -X -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONAR_TOKEN
+      - sonar-scanner -X -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$LOGIN
       # - mvn test     
       # - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
       # - sleep 5
