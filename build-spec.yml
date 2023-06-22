@@ -1,9 +1,14 @@
 version: 0.2
 env:
-  variables:
-    HOST: http://audit.loyalty.cxforge.com
-    PROJECT: codepipeline
-    SONAR_TOKEN: sqp_8cb2ffe75f2f8fe1a12850ba75358fa95639eba4
+  secrets-manager:
+    PROJECT: PROJECT
+    HOST: HOST
+    SONAR_TOKEN: SONAR_TOKEN:
+    
+  # variables:
+  #   HOST: http://audit.loyalty.cxforge.com
+  #   PROJECT: codepipeline
+  #   SONAR_TOKEN: sqp_8cb2ffe75f2f8fe1a12850ba75358fa95639eba4
 
 phases:
   install:
