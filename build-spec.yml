@@ -1,8 +1,8 @@
 version: 0.2
 env:
-  secrets-manager:
-    - HOST: sonarqube-HOST
-    - PROJECT: sonarqube-PROJECT
+  parameter-store:
+    - HOST: /shared/codeBuild/sonarqube/host
+    - PROJECT: /shared/codeBuild/sonarqube/project
   # variables:
   #   LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
   #   HOST: "http://audit.loyalty.cxforge.com/"
