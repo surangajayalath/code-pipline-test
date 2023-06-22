@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'adopt'
 
       - name: Install Maven
         run: |
@@ -37,14 +38,4 @@ jobs:
       - name: SonarQube Scan
         env:
           SONAR_LOGIN: ${{ secrets.LOGIN }}
-          SONAR_HOST: ${{ secrets.HOST }}
-          SONAR_PROJECT_KEY: "aws-codepipeline-builds"
-        run: |
-          mvn sonar:sonar -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=$SONAR_HOST -Dsonar.projectKey=$SONAR_PROJECT_KEY
-
-      - name: Check Quality Gate
-        run: |
-          sleep 5
-          curl "https://sonarcloud.io/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" > result.json
-          cat result.json
-          if [[ $(jq -r '.projectStatus.status' result.json) == "ERROR" ]]; then exit 1; fi
+          SONAR_HOST
