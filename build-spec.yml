@@ -2,7 +2,7 @@ version: 0.2
 env:
   variables:
     HOST: "http://audit.loyalty.cxforge.com"
-    Project: "aws-codepipeline"
+    PROJECT: "aws-codepipeline"
 
 phases:
   install:
