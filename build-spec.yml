@@ -3,7 +3,8 @@ env:
   variables:
     LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
     HOST: "http://audit.loyalty.cxforge.com/"
-    Project: "tttt"
+    Project: "aws-codepipeline"
+    SONAR_TOKEN: "sqp_0e50bff074c760e08a7ef731630f4f642e7fb047"
 phases:
   install:
     runtime-versions:
@@ -11,18 +12,23 @@ phases:
   pre_build:
     commands:
       - apt-get update
-      - apt-get install -y jq
-      - wget http://www-eu.apache.org/dist/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
-      - tar xzf apache-maven-3.8.8-bin.tar.gz
-      - ln -s apache-maven-3.8.8 maven
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-      - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
-      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
+      - apt-get install unzip wget nodejs
+      - export SONAR_SCANNER_VERSION=4.7.0.2747
+      - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      - export SONAR_SCANNER_OPTS="-server"
+
   build:
     commands:
-      - mvn test     
-      - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
-      - sleep 5
-      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
-      - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+      - wget https://ufpr.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.4.0/zabbix-4.4.0.tar.gz
+      - tar -zxvf zabbix-4.4.0.tar.gz
+      - cd zabbix-4.4.0
+      - sonar-scanner -X -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.host.url=$HOST -Dsonar.login=$SONAR_TOKEN
+      # - mvn test     
+      # - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
+      # - sleep 5
+      # - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
+      # - cat result.json
+      # - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
