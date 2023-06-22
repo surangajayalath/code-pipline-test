@@ -3,6 +3,7 @@ env:
   variables:
     HOST: http://audit.loyalty.cxforge.com
     PROJECT: codepipeline
+    SONAR_TOKEN: sqp_8cb2ffe75f2f8fe1a12850ba75358fa95639eba4
 
 phases:
   install:
