@@ -1,41 +1,45 @@
-name: SonarQube Scan
+name: Build
 
 on:
   push:
     branches:
-      - main
+      - main # or the name of your main branch
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  sonarqube-scan:
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Set up JDK 8
-        uses: actions/setup-java@v2
         with:
-          java-version: 8
-          distribution: 'adopt'
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Install Maven
-        run: |
-          wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
-          tar xzf apache-maven-3.5.4-bin.tar.gz
-          ln -s apache-maven-3.5.4 maven
-          export PATH=$PATH:$PWD/maven/bin
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
 
-      - name: Install SonarScanner
-        run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-          unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
-          export PATH=$PATH:$PWD/sonar-scanner-3.3.0.1492-linux/bin
+      - name: Cache SonarQube packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
-      - name: Build and Test
-        run: mvn test
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-      - name: SonarQube Scan
+      - name: Build and analyze
         env:
-          SONAR_LOGIN: ${{ secrets.LOGIN }}
-          SONAR_HOST
+          GITHUB_TOKEN: "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"  # Needed to get PR information, if any
+          SONAR_TOKEN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
+          SONAR_HOST_URL: "http://audit.loyalty.cxforge.com/"
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=aws-codepipeline-builds
