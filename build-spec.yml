@@ -1,7 +1,7 @@
 version: 0.2
 env:
   secrets-manager:
-    LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1
+    LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
     HOST: "http://audit.loyalty.cxforge.com/"
     Project: "tttt"
 phases:
