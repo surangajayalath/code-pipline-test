@@ -3,7 +3,7 @@ env:
   secrets-manager:
     PROJECT: PROJECT
     HOST: HOST
-    SONAR_TOKEN: SONAR_TOKEN:
+    SONAR_TOKEN: SONAR_TOKEN
     
   # variables:
   #   HOST: http://audit.loyalty.cxforge.com
