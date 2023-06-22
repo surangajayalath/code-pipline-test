@@ -5,7 +5,7 @@ if (a === NaN) {  // Noncompliant; always false
 }
 if (a !== NaN) { // Noncompliant; always true
   console.log("a is not NaN"); // this statement is not necessarily true
-
+{
 <html>  <!-- Noncompliant -->
 ...
 </html>
