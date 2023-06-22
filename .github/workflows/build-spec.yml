@@ -19,7 +19,7 @@ phases:
 
   build:
     commands:
-    sonar-scanner \
+   sonar-scanner \
       -Dsonar.projectKey=aws-codepipeline-builds \
       -Dsonar.sources=. \
       -Dsonar.host.url=http://audit.loyalty.cxforge.com
