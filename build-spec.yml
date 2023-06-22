@@ -1,9 +1,9 @@
 version: 0.2
 env:
   secrets-manager:
-    PROJECT: PROJECT
-    HOST: HOST
-    SONAR_TOKEN: SONAR_TOKEN
+    PROJECT: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:PROJECT
+    HOST: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:HOST
+    SONAR_TOKEN: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:SONAR_TOKEN
     
   # variables:
   #   HOST: http://audit.loyalty.cxforge.com
