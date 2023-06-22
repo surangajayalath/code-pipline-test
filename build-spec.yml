@@ -1,10 +1,13 @@
 version: 0.2
 env:
-  variables:
-    LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
-    HOST: "http://audit.loyalty.cxforge.com/"
-    Project: "aws-codepipeline"
-    SONAR_TOKEN: "sqp_0e50bff074c760e08a7ef731630f4f642e7fb047"
+  secrets-manager:
+    - HOST: HOST
+    - PROJECT: PROJECT
+  # variables:
+  #   LOGIN: "squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1"
+  #   HOST: "http://audit.loyalty.cxforge.com/"
+  #   Project: "aws-codepipeline"
+  #   SONAR_TOKEN: "sqp_0e50bff074c760e08a7ef731630f4f642e7fb047"
 phases:
   install:
     runtime-versions:
@@ -22,7 +25,7 @@ phases:
 
   build:
     commands:
-      - sonar-scanner -Dsonar.projectKey=aws-codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
+      - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       # - wget https://ufpr.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.4.0/zabbix-4.4.0.tar.gz
       # - tar -zxvf zabbix-4.4.0.tar.gz
       # - cd zabbix-4.4.0
