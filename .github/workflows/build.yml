@@ -52,7 +52,13 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-      - name: Create PR
+      - name: Create Feature Branch
         run: |
-          gh auth login --with-token <<< "${{ secrets.GIT_TOKEN }}"
-          gh pr create --base master --head main --title "Merge pull request to main" --body "Auto-generated pull request from the CI pipeline."
+          git checkout -b feature-branch
+          git push origin feature-branch
+      - name: Create PR
+        env:
+          PAT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          gh auth login --with-token <<< "${GIT_TOKEN}"
+          gh pr create --base main --head feature-branch --title "Merge pull request to main" --body "Auto-generated pull request from the CI pipeline."
