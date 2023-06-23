@@ -5,6 +5,7 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     name: Build
@@ -12,26 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - name: Check SonarQube status
-        id: sonarqube-status
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/{owner}/{repo}/quality/sonarqube_status
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
-          headers: |
-            Authorization: Bearer ${{ secrets.GIT_TOKEN }}
-      - name: Create Pull Request
-        if: steps.sonarqube-status.outputs.data.status == 'OK'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          commit-message: "Merge branch into master"
-          title: "Merge branch into master"
-          branch: main
-          base: master
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
