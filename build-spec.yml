@@ -13,11 +13,12 @@ phases:
       - yum clean all
       - yum update -y
       - yum install unzip wget nodejs -y
-      - dnf install java-11-amazon-corretto-devel -y
-      - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-      - java -version
+      # - dnf install java-11-amazon-corretto-devel -y
+      # - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+      # - java -version
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
       - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+      - ls -l
       - mv sonar-scanner-cli-4.7.0.2747-linux /var/opt
       #- export PATH=$PATH:/sonar-scanner-4.7.0.2747-linux/bin/
       - which sonar-scanner
