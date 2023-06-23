@@ -41,7 +41,7 @@ env:
     PROJECT: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:PROJECT
     HOST: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:HOST
     SONAR_TOKEN: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:SONAR_TOKEN
-    
+
 phases:
   install:
     runtime-versions:
@@ -61,10 +61,10 @@ phases:
     commands:
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       - sleep 5
-      - curl $HOST/api/qualitygates/project_status?projectKey=$Project >result.json
-      - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then exit 1 ; fi
+      - |
+        STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$Project | jq -r '.projectStatus.status')
+        if [ "$STATUS" = "ERROR" ]; then
+          echo "SonarQube Quality Gate failed. Stopping CodeBuild..."
+          exit 1
+        fi
 
-post_build:
-  commands:
-    - apt-get install curl -y
