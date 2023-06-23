@@ -1,1 +1,1 @@
-void doSomething();
+// void doSomething();
