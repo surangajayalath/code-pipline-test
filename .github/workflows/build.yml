@@ -48,7 +48,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set up Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
       - name: Create PR
         run: |
-          gh auth login --with-token <<< "${{ secrets.GIT_TOKEN }}"
-          gh pr create --base main --head master --title "Merge pull request to master" --body "Auto-generated pull request from the CI pipeline."
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh pr create --base main --head main --title "Merge pull request to main" --body "Auto-generated pull request from the CI pipeline."
