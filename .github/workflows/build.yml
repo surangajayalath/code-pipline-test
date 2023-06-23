@@ -30,7 +30,7 @@ jobs:
         if: steps.sonarqube-status.outputs.data.status == 'OK'
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GIT_TOKEN }}
           commit-message: "Merge branch into master"
           title: "Merge branch into master"
           branch: main
