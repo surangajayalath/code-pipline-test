@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    outputs:
+      sonar_status: ${{ steps.sonar_status.outputs.status }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -26,15 +28,15 @@ jobs:
           echo "SonarQube Status: $status"
           if [[ "$status" == "ERROR" ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
-            echo "::set-env name=SONAR_STATUS::error"
+            echo "::set-output name=status::error"
             exit 1
           elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
-            echo "::set-env name=SONAR_STATUS::ok"
+            echo "::set-output name=status::ok"
             exit 0
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
-            echo "::set-env name=SONAR_STATUS::skipped"
+            echo "::set-output name=status::skipped"
             exit 0
           fi
 
@@ -42,7 +44,7 @@ jobs:
     name: Create PR
     needs: build
     runs-on: ubuntu-latest
-    if: env.SONAR_STATUS == 'ok'
+    if: needs.build.outputs.sonar_status == 'ok'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
