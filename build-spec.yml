@@ -62,7 +62,7 @@ phases:
       - sleep 5
       - |
         STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$Project | jq -r '.projectStatus.status')
-        if [ "$STATUS" = "SUCCESS" ]; then
+        if [ "$STATUS" = "PASSED" ]; then
           echo "SonarQube Quality Gate failed. Stopping CodeBuild..."
           exit 1
         fi
