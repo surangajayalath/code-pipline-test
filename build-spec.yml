@@ -32,7 +32,7 @@ phases:
       # - cat result.json
       #- if [ $(jq -r '.projectStatus.status' result.json) == ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
       # - if [ "$(jq -r '.projectStatus.status' result.json)" = "ERROR" ]; then exit 0; else exit 1; fi
-      - curl $SONAR_HOST_URL/api/qualitygates/project_status?projectKey=$PROJECT > result.json
+      - curl http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline > result.json
       - cat result.json
 
 # version: 0.2
