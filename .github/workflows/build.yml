@@ -19,6 +19,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: Check SonarQube Status
+        id: sonar_status
         run: |
           curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
           status=$(cat result.json | jq -r '.projectStatus.status')
@@ -28,8 +29,25 @@ jobs:
             exit 1
           elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
+            echo "::set-output name=status::ok"
             exit 0
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
             exit 0
           fi
+
+  create_pr:
+    name: Create PR
+    needs: build
+    runs-on: ubuntu-latest
+    if: steps.sonar_status.outputs.status == 'ok'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          branch: main
+          title: Merge pull request to master
+          body: Auto-generated pull request from the CI pipeline.
