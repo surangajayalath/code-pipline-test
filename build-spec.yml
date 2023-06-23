@@ -60,6 +60,7 @@ phases:
     commands:
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       - sleep 5
+      - aws codebuild stop-build --project-name testone --id $CODEBUILD_BUILD_ID
       # - |
       #   STATUS=$(curl -s "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline" | jq -r '.projectStatus.status')
       #   if [ "$STATUS" = "OK" ]; then
