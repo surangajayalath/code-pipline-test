@@ -32,7 +32,7 @@ phases:
       # - cat result.json
       #- if [ $(jq -r '.projectStatus.status' result.json) == ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
       # - if [ "$(jq -r '.projectStatus.status' result.json)" = "ERROR" ]; then exit 0; else exit 1; fi
-      - curl http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline > result.json
+      - curl -H "Authorization: Bearer squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1" http://audit.loyalty.cxforge.com/api/qualitygates/project_status\?projectKey\=codepipeline > result.json
       - cat result.json
 
 # version: 0.2
