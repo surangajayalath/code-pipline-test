@@ -30,6 +30,14 @@ jobs:
             exit 1
           elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
+            echo "SonarQube Quality Gate is green. Code quality is good. Creating merge pull request..."
+            git config user.name "surangajayalath"
+            git config user.email "surangajayalath299@email.com"
+            git checkout -b merge-branch
+            git commit --allow-empty -m "Merge pull request to master"
+            git push origin merge-branch
+            hub pull-request -b main -h merge-branch -m "Merge pull request to master"
+            exit 0
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
             exit 0
