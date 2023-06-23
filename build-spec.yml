@@ -16,12 +16,12 @@ phases:
       # - dnf install java-11-amazon-corretto-devel -y
       # - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
       # - java -version
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
-      - ls -l
-      - mv sonar-scanner-cli-4.7.0.2747-linux /var/opt
       #- export PATH=$PATH:/sonar-scanner-4.7.0.2747-linux/bin/
-      - which sonar-scanner
+      #- which sonar-scanner
+      - wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778.zip
+      - unzip sonar-scanner-cli-3.0.3.778.zip
+      - mv sonar-scanner-cli-3.0.3.778 /opt/sonar/
+      - sonar-scanner -v
 
 
   
