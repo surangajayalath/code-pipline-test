@@ -49,9 +49,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create PR
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          branch: master
-          title: Merge pull request to master
-          body: Auto-generated pull request from the CI pipeline.
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GIT_TOKEN }}"
+          gh pr create --base main --head master --title "Merge pull request to master" --body "Auto-generated pull request from the CI pipeline."
