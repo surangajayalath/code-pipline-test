@@ -59,7 +59,7 @@ phases:
   build:
     commands:
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
-      # - sleep 5
+      - sleep 5
       # - |
       #   STATUS=$(curl -s "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline" | jq -r '.projectStatus.status')
       #   if [ "$STATUS" = "OK" ]; then
