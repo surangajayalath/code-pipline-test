@@ -19,7 +19,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: Check SonarQube Status
-        id: sonarqube_status
         run: |
           status=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}&branch=${{ github.ref }}&sonarVersion=8.0")
           echo "SonarQube Status: $status"
@@ -30,11 +29,4 @@ jobs:
             echo "SonarQube Quality Gate is yellow. Code quality issues found."
           else
             echo "SonarQube Quality Gate is green. Code quality is good."
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          commit-message: 'Merge development to master'
-          branch: main
-          title: 'Merge development to master'
-          body: 'This pull request merges the development branch into the master branch.'
+          fi
