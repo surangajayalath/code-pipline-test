@@ -1,22 +1,25 @@
-void doSomething();
-
-
-class Dog extends Animal {
-  constructor(name) {
-    super();
-    this.name = name;
-    super();         // Noncompliant
-    super.doSomething();
-  }
+if(unexpectedCondition) {
+  alert("Unexpected Condition");
 }
-void doSomething();
 
+if (var == 'howdy') {...} // Noncompliant
 
-class Dog extends Animal {
-  constructor(name) {
-    super();
-    this.name = name;
-    super();         // Noncompliant
-    super.doSomething();
-  }
+var x  = 1;
+delete x;       // Noncompliant
+
+function foo(){
+..
 }
+
+delete foo;  // Noncompliant
+
+const express = require('express');
+const helmet = require('helmet');
+
+let app = express();
+
+app.use(
+  helmet.dnsPrefetchControl({
+    allow: true // Sensitive: allowing DNS prefetching is security-sensitive
+  })
+);
