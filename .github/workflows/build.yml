@@ -18,8 +18,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - name: Sleep for 1 minute
-        run: sleep 60
       - name: Check SonarQube Status
         run: |
           curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
@@ -33,6 +31,7 @@ jobs:
             echo "SonarQube Quality Gate is green. Code quality is good. Creating merge pull request..."
             git config user.name "surangajayalath"
             git config user.email "surangajayalath299@email.com"
+            export GITHUB_TOKEN=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
             git checkout -b merge-branch
             git commit --allow-empty -m "Merge pull request to master"
             git push origin merge-branch
