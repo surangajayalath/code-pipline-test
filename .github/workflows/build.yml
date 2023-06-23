@@ -22,10 +22,10 @@ jobs:
         run: |
           status=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}&branch=${{ github.ref }}&sonarVersion=8.0")
           echo "SonarQube Status: $status"
-          if [[ $status == *"ERROR"* ]]; then
+          if [[ $status =~ ([Ee][Rr][Rr][Oo][Rr]) ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
             exit 1
-          elif [[ $status == *"OK"* ]]; then
+          elif [[ $status =~ ([Oo][Kk]) ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
