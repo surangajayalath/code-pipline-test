@@ -40,7 +40,7 @@ jobs:
     name: Create PR
     needs: build
     runs-on: ubuntu-latest
-    if: steps.sonar_status.outputs.status == 'ok'
+    if: ${{ needs.build.outputs.sonar_status == 'ok' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
