@@ -12,33 +12,27 @@ phases:
     commands:
       - yum clean all
       - yum update -y
-      #- sudo yum install curl
-      - yum install unzip wget nodejs -y
-      - dnf install java-11-amazon-corretto-devel -y
-      - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-      - java -version
-      # - export SONAR_SCANNER_VERSION=4.7.0.2747
-      # - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      # - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      # - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-      # - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-      # - export SONAR_SCANNER_OPTS="-server"
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
-      - mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
-      - echo 'export PATH="/opt/sonar-scanner/bin:$PATH"' >> ~/.bashrc
-      - source ~/.bashrc
-      - chmod +x /opt/sonar-scanner/bin/sonar-scanner
-      - export PATH=$PATH:/opt/sonar-scanner/bin
-      - which sonar-scanner
-      - sonar-scanner -v
-    
+      # #- sudo yum install curl
+      # - yum install unzip wget nodejs -y
+      # - dnf install java-11-amazon-corretto-devel -y
+      # - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+      # - java -version
+      # - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      # - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+      # - export PATH=$PATH:/sonar-scanner-4.7.0.2747-linux/bin/
+      # - which sonar-scanner
+      - wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+      - tar xzf apache-maven-3.5.4-bin.tar.gz
+      - ln -s apache-maven-3.5.4 maven
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
+      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
 
-
-
-
+  
   build:
-    commands:
+    commands: 
+      - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - sleep 5
       - sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
       # - chmod +x /root/.sonar/sonar-scanner-4.7.0.2747-linux/jre/bin/java
       # - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
