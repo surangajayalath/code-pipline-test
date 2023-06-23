@@ -1,12 +1,12 @@
 
-// void doSomething();
+void doSomething();
 
 
-// class Dog extends Animal {
-//   constructor(name) {
-//     super();
-//     this.name = name;
-//     super();         // Noncompliant
-//     super.doSomething();
-//   }
-// }
+class Dog extends Animal {
+  constructor(name) {
+    super();
+    this.name = name;
+    super();         // Noncompliant
+    super.doSomething();
+  }
+}
