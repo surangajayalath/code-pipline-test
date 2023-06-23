@@ -11,6 +11,7 @@ phases:
   pre_build:
     commands:
       - apt-get update
+      - apt install curl -y
       - apt-get install unzip wget nodejs -y
       - export SONAR_SCANNER_VERSION=4.7.0.2747
       - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
