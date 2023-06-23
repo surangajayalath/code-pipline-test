@@ -10,8 +10,10 @@ phases:
       java: corretto17
   pre_build:
     commands:
+      - yum clean all
       - yum update -y
-      - yum install java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64
+      - amazon-linux-extras enable epel
+      - yum install java-1.8.0-openjdk-devel
       - java -version
 
       #- sudo yum install curl
