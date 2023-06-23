@@ -11,7 +11,7 @@ phases:
   pre_build:
     commands:
       - yum update -y
-      - yum install java-1.8.0-openjdk-devel -y
+      - yum install java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64
       - java -version
 
       #- sudo yum install curl
