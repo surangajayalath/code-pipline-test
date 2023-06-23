@@ -14,6 +14,8 @@ phases:
       - yum update -y
       #- sudo yum install curl
       - yum install unzip wget nodejs -y
+      - dnf install java-17-amazon-corretto-devel -y
+      - java -version
       # - export SONAR_SCANNER_VERSION=4.7.0.2747
       # - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
       # - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
