@@ -28,9 +28,9 @@ phases:
       #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       - sleep 10
-      - curl $HOST/api/qualitygates/project_status?projectKey=$Project >result.json
+      - curl $HOST/api/qualitygates/project_status?projectKey=$Project > result.json
       - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+      - if [ $(jq -r '.projectStatus.status' result.json) == ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
 
 # version: 0.2
 # env:
