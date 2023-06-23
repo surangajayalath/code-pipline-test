@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    outputs:
-      sonar_status: ${{ steps.sonar_status.outputs.status }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -19,45 +18,19 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Sleep for 1 minute
+        run: sleep 60
       - name: Check SonarQube Status
-        id: sonar_status
         run: |
           curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
           status=$(cat result.json | jq -r '.projectStatus.status')
           echo "SonarQube Status: $status"
           if [[ "$status" == "ERROR" ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
-            echo "::set-output name=status::error"
             exit 1
           elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
-            echo "::set-output name=status::ok"
-            exit 0
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
-            echo "::set-output name=status::skipped"
             exit 0
           fi
-
-  create_pr:
-    name: Create PR
-    needs: build
-    runs-on: ubuntu-latest
-    if: needs.build.outputs.sonar_status == 'ok'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Set up Git
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-      - name: Create Feature Branch
-        run: |
-          git checkout -b feature-branch
-          git push origin feature-branch
-      - name: Create PR
-        env:
-          PAT_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: |
-          gh auth login --with-token <<< "${GIT_TOKEN}"
-          gh pr create --base main --head feature-branch --title "Merge pull request to main" --body "Auto-generated pull request from the CI pipeline."
