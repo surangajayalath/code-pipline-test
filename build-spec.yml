@@ -10,25 +10,25 @@ phases:
       java: corretto17
   pre_build:
     commands:
-      - yum clean all
-      - yum update -y
-      #- sudo yum install curl
-      - yum install unzip wget nodejs -y
-      - dnf install java-17-amazon-corretto-devel -y
-      - java -version
-      # - export SONAR_SCANNER_VERSION=4.7.0.2747
-      # - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      # - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      # - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-      # - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-      # - export SONAR_SCANNER_OPTS="-server"
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
-      - mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
-      - echo 'export PATH="/opt/sonar-scanner/bin:$PATH"' >> ~/.bashrc
-      - source ~/.bashrc
-      - chmod +x /opt/sonar-scanner/bin/sonar-scanner
-      - sonar-scanner -v
+      # - yum clean all
+      # - yum update -y
+      # #- sudo yum install curl
+      # - yum install unzip wget nodejs -y
+      # - dnf install java-17-amazon-corretto-devel -y
+      # - java -version
+      # # - export SONAR_SCANNER_VERSION=4.7.0.2747
+      # # - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      # # - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      # # - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      # # - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      # # - export SONAR_SCANNER_OPTS="-server"
+      # - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      # - unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+      # - mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
+      # - echo 'export PATH="/opt/sonar-scanner/bin:$PATH"' >> ~/.bashrc
+      # - source ~/.bashrc
+      # - chmod +x /opt/sonar-scanner/bin/sonar-scanner
+      # - sonar-scanner -v
       #- sonar-scanner -h
 
 
