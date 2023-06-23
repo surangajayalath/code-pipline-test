@@ -25,8 +25,9 @@ jobs:
           if [[ $status == *"ERROR"* ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
             exit 1
-          elif [[ $status == *"WARN"* ]]; then
-            echo "SonarQube Quality Gate is yellow. Code quality issues found."
-          else
+          elif [[ $status == *"OK"* ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
+          else
+            echo "Unexpected SonarQube status: $status"
+            exit 1
           fi
