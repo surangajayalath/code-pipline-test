@@ -18,6 +18,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Sleep for 1 minute
+        run: sleep 60
       - name: Check SonarQube Status
         run: |
           status=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}&branch=${{ github.ref }}&sonarVersion=8.0")
