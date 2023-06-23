@@ -31,7 +31,7 @@ jobs:
             echo "SonarQube Quality Gate is green. Code quality is good. Creating merge pull request..."
             git config user.name "surangajayalath"
             git config user.email "surangajayalath299@email.com"
-            export GITHUB_TOKEN=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
+            export GITHUB_TOKEN=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
             git checkout -b merge-branch
             git commit --allow-empty -m "Merge pull request to master"
             git push origin merge-branch
