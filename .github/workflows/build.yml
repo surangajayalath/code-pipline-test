@@ -26,13 +26,15 @@ jobs:
           echo "SonarQube Status: $status"
           if [[ "$status" == "ERROR" ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
+            echo "::set-env name=SONAR_STATUS::error"
             exit 1
           elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
-            echo "::set-output name=status::ok"
+            echo "::set-env name=SONAR_STATUS::ok"
             exit 0
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
+            echo "::set-env name=SONAR_STATUS::skipped"
             exit 0
           fi
 
@@ -40,14 +42,14 @@ jobs:
     name: Create PR
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ needs.build.outputs.sonar_status == 'ok' }}
+    if: env.SONAR_STATUS == 'ok'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create PR
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.GIT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
           title: Merge pull request to master
           body: Auto-generated pull request from the CI pipeline.
