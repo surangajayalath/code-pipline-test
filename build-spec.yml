@@ -27,7 +27,8 @@ phases:
   build:
     commands:
       #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
-      - sudo sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
+      - sudo su
+      - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       #- sleep 10
       #- curl $HOST/api/qualitygates/project_status?projectKey=$Project > result.json
       # - cat result.json
