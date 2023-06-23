@@ -49,18 +49,20 @@ phases:
     commands:
       - apt-get update
       - apt-get install unzip wget nodejs -y
-      - export SONAR_SCANNER_VERSION=4.7.0.2747
-      - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-      - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-      - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-      - export SONAR_SCANNER_OPTS="-server"
+      # - export SONAR_SCANNER_VERSION=4.7.0.2747
+      # - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+      # - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+      # - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+      # - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      # - export SONAR_SCANNER_OPTS="-server"
 
   build:
     commands:
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       - sleep 5
-      - aws codebuild stop-build --id testone:2477389b-96a3-4a37-984b-b9b5e789f9c3
+      #- aws codebuild stop-build --id testone:2477389b-96a3-4a37-984b-b9b5e789f9c3
+      - BUILD_ID=$(echo "$CODEBUILD_BUILD_ID" | cut -d':' -f2)
+      - aws codebuild stop-build --id "$BUILD_ID"
       # - |
       #   STATUS=$(curl -s "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline" | jq -r '.projectStatus.status')
       #   if [ "$STATUS" = "OK" ]; then
