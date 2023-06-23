@@ -69,7 +69,7 @@ phases:
       #     exit 1
       #   fi
       - |
-        STATUS=$(curl -s "$HOST/api/qualitygates/project_status?projectKey=$PROJECT" | jq -r '.projectStatus.status')
+        STATUS=$(curl -s "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline" | jq -r '.projectStatus.status')
         if [[ "$STATUS" == "ERROR" ]]; then
           echo "SonarQube Quality Gate failed. Stopping CodeBuild..."
           exit 1
