@@ -61,7 +61,7 @@ phases:
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       - sleep 5
       - |
-        STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$Project | jq -r '.projectStatus.status')
+        STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$PROJECT | jq -r '.projectStatus.status')
         if [ "$STATUS" = "PASSED" ]; then
           echo "SonarQube Quality Gate passed."
         else
