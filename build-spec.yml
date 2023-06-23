@@ -27,6 +27,7 @@ phases:
   build:
     commands:
       #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
+      - chmod +x /root/.sonar/sonar-scanner-4.7.0.2747-linux/jre/bin/java
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
       #- sleep 10
       #- curl $HOST/api/qualitygates/project_status?projectKey=$Project > result.json
