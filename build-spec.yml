@@ -34,7 +34,6 @@
 #       - cat result.json
 #       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
 
-
 version: 0.2
 env:
   secrets-manager:
@@ -63,8 +62,13 @@ phases:
       - sleep 5
       - |
         STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$Project | jq -r '.projectStatus.status')
-        if [ "$STATUS" = "Failed" ]; then
+        if [ "$STATUS" = "ERROR" ]; then
           echo "SonarQube Quality Gate failed. Stopping CodeBuild..."
           exit 1
         fi
+
+post_build:
+  commands:
+    - apt-get install curl -y
+
 
