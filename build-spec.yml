@@ -15,10 +15,6 @@ phases:
       - yum install unzip wget nodejs -y
       - export SONAR_SCANNER_VERSION=4.7.0.2747
       - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-      # - if [ ! -d "$SONAR_SCANNER_HOME" ]; then
-      #     curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip;
-      #     unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/;
-      #   fi
       - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
       - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
@@ -26,17 +22,7 @@ phases:
 
   build:
     commands:
-      #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
-      - chmod +x /root/.sonar/sonar-scanner-4.7.0.2747-linux/jre/bin/java
-      - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
-      #- sleep 10
-      #- curl $HOST/api/qualitygates/project_status?projectKey=$Project > result.json
-      # - cat result.json
-      #- if [ $(jq -r '.projectStatus.status' result.json) == ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
-      # - if [ "$(jq -r '.projectStatus.status' result.json)" = "ERROR" ]; then exit 0; else exit 1; fi
-      #- curl -H "Authorization: Bearer squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1" http://audit.loyalty.cxforge.com/api/qualitygates/project_status\?projectKey\=codepipeline > result.json
-      # - >
-      #     curl -H "Authorization: Bearer squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1" \
-      #     "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=codepipeline" \
-      #     > result.json
-      # - cat result.json
+      - sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
+      # - chmod +x /root/.sonar/sonar-scanner-4.7.0.2747-linux/jre/bin/java
+      # - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
+
