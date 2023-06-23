@@ -5,7 +5,7 @@ env:
     HOST: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:HOST
     SONAR_TOKEN: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:SONAR_TOKEN
   variables:
-    TO: 'Authorization: Bearer squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1'
+    TO: Authorization: Bearer squ_4a78bbf6ea2f3d2f812c7ee30a3d55f07dccf3d1
 phases:
   install:
     runtime-versions:
