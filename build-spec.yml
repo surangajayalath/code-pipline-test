@@ -25,7 +25,7 @@ phases:
       - echo 'export PATH="/opt/sonar-scanner/bin:$PATH"' >> ~/.bashrc
       - source ~/.bashrc
       - chmod +x /opt/sonar-scanner/bin/sonar-scanner
-      - sonar-scanner -h
+      #- sonar-scanner -h
 
 
   build:
