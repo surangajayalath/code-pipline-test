@@ -63,6 +63,8 @@ phases:
       - |
         STATUS=$(curl -s $HOST/api/qualitygates/project_status?projectKey=$Project | jq -r '.projectStatus.status')
         if [ "$STATUS" = "PASSED" ]; then
+          echo "SonarQube Quality Gate passed."
+        else
           echo "SonarQube Quality Gate failed. Stopping CodeBuild..."
           exit 1
         fi
@@ -70,5 +72,6 @@ phases:
 post_build:
   commands:
     - apt-get install curl -y
+
 
 
