@@ -1,3 +1,40 @@
+# version: 0.2
+# env:
+#   secrets-manager:
+#     PROJECT: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:PROJECT
+#     HOST: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:HOST
+#     SONAR_TOKEN: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:SONAR_TOKEN
+# phases:
+#   install:
+#     runtime-versions:
+#       java: corretto11
+#   pre_build:
+#     commands:
+#       - apt-get update
+#       - apt-get install unzip wget nodejs -y
+#       - export SONAR_SCANNER_VERSION=4.7.0.2747
+#       - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+#       - curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+#       - unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+#       - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+#       - export SONAR_SCANNER_OPTS="-server"
+
+#   build:
+#     commands:
+#       #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
+#       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
+#       # - wget https://ufpr.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.4.0/zabbix-4.4.0.tar.gz
+#       # - tar -zxvf zabbix-4.4.0.tar.gz
+#       # - cd zabbix-4.4.0
+#       # - sonar-scanner -X -Dsonar.projectKey=aws-codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com -Dsonar.login=sqp_0e50bff074c760e08a7ef731630f4f642e7fb047
+#       # - mvn test     
+#       # - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
+#       - sleep 5
+#       - curl $HOST/api/qualitygates/project_status?projectKey=$Project >result.json
+#       - cat result.json
+#       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+
+
 version: 0.2
 env:
   secrets-manager:
@@ -5,11 +42,6 @@ env:
     HOST: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:HOST
     SONAR_TOKEN: arn:aws:secretsmanager:us-west-2:458121188926:secret:sonarqube-5kfTmz:SONAR_TOKEN
     
-  # variables:
-  #   HOST: http://audit.loyalty.cxforge.com
-  #   PROJECT: codepipeline
-  #   SONAR_TOKEN: sqp_8cb2ffe75f2f8fe1a12850ba75358fa95639eba4
-
 phases:
   install:
     runtime-versions:
@@ -27,15 +59,12 @@ phases:
 
   build:
     commands:
-      #- sonar-scanner -Dsonar.projectKey=codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com
       - sonar-scanner -Dsonar.projectKey=$PROJECT -Dsonar.sources=. -Dsonar.host.url=$HOST
-      # - wget https://ufpr.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/4.4.0/zabbix-4.4.0.tar.gz
-      # - tar -zxvf zabbix-4.4.0.tar.gz
-      # - cd zabbix-4.4.0
-      # - sonar-scanner -X -Dsonar.projectKey=aws-codepipeline -Dsonar.sources=. -Dsonar.host.url=http://audit.loyalty.cxforge.com -Dsonar.login=sqp_0e50bff074c760e08a7ef731630f4f642e7fb047
-      # - mvn test     
-      # - mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project
       - sleep 5
       - curl $HOST/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then exit 1 ; fi
+
+post_build:
+  commands:
+    - apt-get install curl -y
