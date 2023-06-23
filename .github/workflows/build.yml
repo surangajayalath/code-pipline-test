@@ -25,7 +25,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
           headers: |
-            Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}
+            Authorization: Bearer ${{ secrets.GIT_TOKEN }}
       - name: Create Pull Request
         if: steps.sonarqube-status.outputs.data.status == 'OK'
         uses: peter-evans/create-pull-request@v3
