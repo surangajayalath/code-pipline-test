@@ -1,0 +1,1 @@
+[![Quality gate](http://audit.loyalty.cxforge.com/api/project_badges/quality_gate?project=shoutout-loyalty-campaign-service&token=sqb_2bbb82273d3bb6938e31a1a4210bbfe61fa8a627)](http://audit.loyalty.cxforge.com/dashboard?id=shoutout-loyalty-campaign-service)
