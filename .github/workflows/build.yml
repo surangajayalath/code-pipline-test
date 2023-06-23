@@ -54,5 +54,5 @@ jobs:
           git config user.email github-actions@github.com
       - name: Create PR
         run: |
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh auth login --with-token <<< "${{ secrets.GIT_TOKEN }}"
           gh pr create --base main --head main --title "Merge pull request to main" --body "Auto-generated pull request from the CI pipeline."
