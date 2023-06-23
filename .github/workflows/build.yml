@@ -30,13 +30,11 @@ jobs:
             echo "SonarQube Quality Gate is yellow. Code quality issues found."
           else
             echo "SonarQube Quality Gate is green. Code quality is good."
-            # Add the following steps to create a pull request for merging the development branch to the master branch
-            - name: Create Pull Request
-              uses: peter-evans/create-pull-request@v3
-              with:
-                token: ${{ secrets.GIT_TOKEN }}
-                commit-message: 'Merge development to master'
-                branch: main
-                title: 'Merge development to master'
-                body: 'This pull request merges the development branch into the master branch.'
-                labels: 'automerge'
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          commit-message: 'Merge development to master'
+          branch: main
+          title: 'Merge development to master'
+          body: 'This pull request merges the development branch into the master branch.'
