@@ -22,12 +22,13 @@ jobs:
         run: sleep 60
       - name: Check SonarQube Status
         run: |
-          status=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}&branch=${{ github.ref }}&sonarVersion=8.0")
+          curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
+          status=$(cat result.json | jq -r '.projectStatus.status')
           echo "SonarQube Status: $status"
-          if [[ $status =~ ([Ee][Rr][Rr][Oo][Rr]) ]]; then
+          if [[ "$status" == "ERROR" ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
             exit 1
-          elif [[ $status =~ ([Oo][Kk]) ]]; then
+          elif [[ "$status" == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
           else
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
