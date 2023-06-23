@@ -20,12 +20,13 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       - name: Check SonarQube Status
         run: |
-          status=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}&branch=${{ github.ref }}&sonarVersion=8.0")
+          curl -s -u "${{ secrets.SONAR_TOKEN }}:" "${{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=${{ github.repository }}" > result.json
+          status=$(jq -r '.projectStatus.status' result.json)
           echo "SonarQube Status: $status"
-          if [[ $status == *"ERROR"* ]]; then
+          if [[ $status == "ERROR" ]]; then
             echo "SonarQube Quality Gate is red. Code quality issues detected."
             exit 1
-          elif [[ $status == *"OK"* ]]; then
+          elif [[ $status == "OK" ]]; then
             echo "SonarQube Quality Gate is green. Code quality is good."
           else
             echo "Unexpected SonarQube status: $status"
