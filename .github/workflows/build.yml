@@ -23,7 +23,7 @@ jobs:
         run: sleep 60
       - name: Check SonarQube Status
         run: |
-          curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
+          curl -u ${{ secrets.SONAR_USERNAME }}:${{ secrets.SONAR_PASSWORD }} "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
           status=$(cat result.json | jq -r '.projectStatus.status')
           echo "SonarQube Status: $status"
           if [[ "$status" == "ERROR" ]]; then
