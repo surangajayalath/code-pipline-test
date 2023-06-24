@@ -19,8 +19,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - name: Sleep for 1 minute
-        run: sleep 60
       - name: Check SonarQube Status
         run: |
           curl -u ${{ secrets.SONAR_USERNAME }}:${{ secrets.SONAR_PASSWORD }} "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
