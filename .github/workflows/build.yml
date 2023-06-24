@@ -1,3 +1,4 @@
+
 name: Build
 
 on:
@@ -18,6 +19,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: Sleep for 1 minute
+        run: sleep 60
       - name: Check SonarQube Status
         run: |
           curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
@@ -32,32 +35,3 @@ jobs:
             echo "SonarQube Quality Gate is not OK or ERROR. Skipping further actions."
             exit 0
           fi
-
-  merge_check:
-    name: Merge Check
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check SonarQube Status
-        run: |
-          curl -u suranga:admin "http://audit.loyalty.cxforge.com/api/qualitygates/project_status?projectKey=shoutout-loyalty-campaign-service" > result.json
-          status=$(cat result.json | jq -r '.projectStatus.status')
-          echo "SonarQube Status: $status"
-          if [[ "$status" == "ERROR" ]]; then
-            echo "SonarQube Quality Gate is red. Code quality issues detected."
-            echo "::set-output name=block_merge::true"
-          else
-            echo "SonarQube Quality Gate is green. Code quality is good."
-            echo "::set-output name=block_merge::false"
-          fi
-
-  merge_pr:
-    name: Merge PR
-    needs: merge_check
-    runs-on: ubuntu-latest
-    if: ${{ needs.merge_check.outputs.block_merge == 'false' }}
-    steps:
-      - name: Merge PR
-        run: |
-          # Perform the merge action here
-
